@@ -67,3 +67,15 @@ def data():
   data["age"] = "27"
   data["country"] = "USA"
   return  json.dumps(data)  
+
+@webapp.route("/get-person", methods=["POST"])
+def getPerson():
+  # id = int(request.form["id"])
+
+  data = request.json  # Assuming JSON data is sent
+  # Access the data using keys
+  id = data.get('id')
+  
+  result = bll.getPerson(id)
+  
+  return result 
