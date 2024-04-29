@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Bretts Website</title>
+
+		<!-- Local-Sourced JS and CSS Files, note that django variables coming from api_routes.py -->
+		<script type='text/javascript'> {{ js_source }} </script>
+		<style> {{ css_source }} </style>
+
+	</head>
+
+	<body>
+      <h1> Hello World </h1>
+			{{ foo }}
+	</body>
+</html>
