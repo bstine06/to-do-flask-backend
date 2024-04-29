@@ -17,7 +17,7 @@ app.register_blueprint(webapp)
 def main():
 
 	#For developers, use this
-	app.run(debug=debug, host='127.0.0.1', port=5001)
+	app.run(debug=debug, host='127.0.0.1', port=5005)
 
 	# For server, use this
 	# app.config['SERVER_NAME'] = 'facemorph.com:5000'	# only for running on server

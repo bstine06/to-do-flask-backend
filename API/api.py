@@ -44,11 +44,26 @@ def get_js__and_css_source():
   return js_source, css_source
 
 @webapp.route("/")
-def go():
+def home():
   js_source, css_source = get_js__and_css_source()
-
-  return render_template("index.html.j2",
+  return  render_template("index.html.j2",
               js_source=js_source,
               css_source=css_source,
               foo="<p>foo</p>"
-              )
+          )
+
+@webapp.route("/info")
+def info():
+  js_source, css_source = get_js__and_css_source()
+  return  render_template("info.html.j2",
+              js_source=js_source,
+              css_source=css_source
+          )
+
+@webapp.route("/data", methods=["POST"])
+def data():
+  data = dict()
+  data["name"] = "Brett"
+  data["age"] = "27"
+  data["country"] = "USA"
+  return  json.dumps(data)  
