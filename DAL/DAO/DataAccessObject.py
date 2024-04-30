@@ -7,7 +7,6 @@ this_files_dir = os.path.dirname(os.path.abspath(__file__))
 class DataAccessObject:
     def __init__(self):
         self.db_file = f"{this_files_dir}/../../DATA/mydatabase.db"
-        
 
     def connect(self):
         self.conn = sqlite3.connect(self.db_file)
@@ -32,8 +31,13 @@ class DataAccessObject:
         self.cur.execute("SELECT * FROM People")
         people_data = self.cur.fetchall()
         self.disconnect()
-
-        people = []
-        for person_data in people_data:
-            people.append(PersonDOM(*person_data))
-        return people
+        return people_data
+    
+    def get_all_people_with_cities(self):
+        self.connect()
+        self.cur.execute("SELECT people.id, people.name, people.age, people.city_id, cities.name \
+                         FROM people \
+                         INNER JOIN cities ON cities.id = people.city_id;")
+        people_data = self.cur.fetchall()
+        self.disconnect()
+        return(people_data)

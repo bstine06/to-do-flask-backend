@@ -48,8 +48,7 @@ def home():
   js_source, css_source = get_js__and_css_source()
   return  render_template("index.html.j2",
               js_source=js_source,
-              css_source=css_source,
-              foo="<p>foo</p>"
+              css_source=css_source
           )
 
 @webapp.route("/info")
@@ -69,13 +68,18 @@ def data():
   return  json.dumps(data)  
 
 @webapp.route("/get-person", methods=["POST"])
-def getPerson():
-  # id = int(request.form["id"])
-
-  data = request.json  # Assuming JSON data is sent
-  # Access the data using keys
+def getPersonById():
+  data = request.json 
   id = data.get('id')
-  
-  result = bll.getPerson(id)
-  
+  result = bll.getPersonById(id)
   return result 
+
+@webapp.route("/get-people", methods=['POST'])
+def getPeople():
+  result = bll.getAllPeople()
+  return result
+
+@webapp.route("/get-people-with-cities", methods=['POST'])
+def getPeopleWithCities():
+  result = bll.getAllPeopleWithCities()
+  return result
