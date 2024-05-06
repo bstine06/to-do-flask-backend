@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import pandas as pd
 from DAL.DOM.PersonDOM import PersonDOM
 
 this_files_dir = os.path.dirname(os.path.abspath(__file__))
@@ -14,30 +15,37 @@ class DataAccessObject:
 
     def disconnect(self):
         self.conn.close()
-
-    def get_person_by_id(self, person_id):
-        self.connect()
-        self.cur.execute("SELECT * FROM People WHERE id = ?", (person_id,))
-        person_data = self.cur.fetchone()
-        self.disconnect()
-
-        if person_data:
-            return PersonDOM(*person_data)
-        else:
-            return None
-
-    def get_all_people(self):
-        self.connect()
-        self.cur.execute("SELECT * FROM People")
-        people_data = self.cur.fetchall()
-        self.disconnect()
-        return people_data
     
-    def get_all_people_with_cities(self):
+    def query(self, sql):
+        # Connect to your database
         self.connect()
-        self.cur.execute("SELECT people.id, people.name, people.age, people.city_id, cities.name \
-                         FROM people \
-                         INNER JOIN cities ON cities.id = people.city_id;")
-        people_data = self.cur.fetchall()
+        
+        # Execute the query and fetch the results
+        self.cur.execute(sql)
+        rows = self.cur.fetchall()
+        
+        # Get the column names from the cursor description
+        columns = [col[0] for col in self.cur.description]
+        
+        # Fetch all rows as a list of dictionaries
+        results = []
+        for row in rows:
+            row_dict = {}
+            for idx, col in enumerate(columns):
+                row_dict[col] = row[idx]
+            results.append(row_dict)
+        
+        # Close the self.cur and connection
         self.disconnect()
-        return(people_data)
+        if len(results) == 1:
+            return results[0]
+        return results
+    
+    def execute_raw(self, sql):
+        # Connect to your database
+        self.connect()
+        # Execute the query and fetch the results
+        self.cur.execute(sql)
+        self.conn.commit()
+        # Close the self.cur and connection
+        self.disconnect()

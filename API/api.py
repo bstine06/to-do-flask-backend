@@ -5,9 +5,9 @@ import glob
 import pandas as pd
 import numpy as np
 import json
-from flask import Flask, render_template, Blueprint, request, send_from_directory, send_file, flash, Blueprint, g, session, app, current_app
+from flask import Flask, render_template, Blueprint, request, send_from_directory, send_file, flash, Blueprint, g, session, app, current_app, jsonify
 from flask_wtf import Form
-from BLL.bll import BusinessLogicLayer
+from BLL.PersonBLL import PersonBLL
 from bs4 import BeautifulSoup as bs
 from werkzeug.utils import secure_filename
 from pathlib import Path
@@ -21,8 +21,6 @@ webapp = Blueprint("webapp",
           static_folder="DEPENDENCIES/JS",
           static_url_path="/static"
           )
-
-bll = BusinessLogicLayer()
 
 def get_js__and_css_source():
 
@@ -68,18 +66,33 @@ def data():
   return  json.dumps(data)  
 
 @webapp.route("/get-person", methods=["POST"])
-def getPersonById():
+def get_person_by_id():
+  person_bll = PersonBLL()
   data = request.json 
   id = data.get('id')
-  result = bll.getPersonById(id)
-  return result 
+  result = person_bll.getPersonById(id)
+  return jsonify(result.toDictionary()).json
 
 @webapp.route("/get-people", methods=['POST'])
-def getPeople():
-  result = bll.getAllPeople()
-  return result
+def get_people():
+  person_bll = PersonBLL()
+  result = person_bll.getAllPeople()  
+  return jsonify([jsonify(item.toDictionary()).json for item in result])
 
-@webapp.route("/get-people-with-cities", methods=['POST'])
-def getPeopleWithCities():
-  result = bll.getAllPeopleWithCities()
-  return result
+@webapp.route("/add-person", methods=['POST'])
+def add_person():
+  person_bll = PersonBLL()
+  data = request.json 
+  age = data.get('age')
+  name = data.get('name')
+  person_bll.add_person(age, name)
+  return jsonify({"result":True}).json
+
+@webapp.route("/remove-person", methods=['POST'])
+def remove_person():
+  person_bll = PersonBLL()
+  data = request.json 
+  id = data.get('id')
+  person_bll.remove_person(id)
+  return jsonify({"result":True}).json
+

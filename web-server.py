@@ -1,7 +1,7 @@
 import setproctitle
 from gevent.pywsgi import WSGIServer
 from API.api import webapp # where the magic happens
-from flask import Flask, redirect, url_for, render_template, Blueprint, session, app, flash
+from flask import Flask, redirect, url_for, render_template, Blueprint, session, app, flash, jsonify
 import os
 
 debug = True
