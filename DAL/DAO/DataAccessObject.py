@@ -7,7 +7,7 @@ this_files_dir = os.path.dirname(os.path.abspath(__file__))
 
 class DataAccessObject:
     def __init__(self):
-        self.db_file = f"{this_files_dir}/../../DATA/mydatabase.db"
+        self.db_file = f"{this_files_dir}/../DATA/mydatabase.db"
 
     def connect(self):
         self.conn = sqlite3.connect(self.db_file)
