@@ -2,6 +2,7 @@
 
 CREATE TABLE Projects (
     id INTEGER PRIMARY KEY,
+    uuid VARCHAR(36) NOT NULL UNIQUE,
     name TEXT NOT NULL
 );
 

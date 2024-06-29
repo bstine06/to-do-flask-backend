@@ -25,7 +25,6 @@ class TaskBLL:
   
   def get_all_tasks_in_project(self, project_id):
     result = list()
-    print(self.task_dao.get_all_tasks_in_project(project_id))
     for task in self.task_dao.get_all_tasks_in_project(project_id):
       task_dom = TaskDOM()
       task_dom.from_dictionary(task)

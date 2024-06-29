@@ -8,6 +8,7 @@ import json
 from flask import Flask, render_template, Blueprint, request, send_from_directory, send_file, flash, Blueprint, g, session, app, current_app, jsonify
 from flask_wtf import Form
 from BLL.TaskBLL import TaskBLL
+from BLL.ProjectBLL import ProjectBLL
 # from bs4 import BeautifulSoup as bs
 from werkzeug.utils import secure_filename
 from pathlib import Path
@@ -49,7 +50,7 @@ def get_task_by_uuid():
   result = task_bll.get_task_by_uuid(uuid)
   return jsonify(result.toDictionary()).json
 
-@webapp.route("/get-all-tasks", methods=['POST'])
+@webapp.route("/get-all-tasks", methods=['GET'])
 def get_all_tasks():
   task_bll = TaskBLL()
   result = task_bll.get_all_tasks()  
@@ -85,3 +86,25 @@ def remove_task_by_uuid():
   task_bll.remove_task_by_uuid(uuid)
   return jsonify({"result":True}).json
 
+@webapp.route("/add-project", methods=['POST'])
+def add_project():
+  project_bll = ProjectBLL()
+  data = request.json
+  uuid = data.get('uuid')
+  name = data.get('name')
+  project_bll.add_project(uuid, name)
+  return jsonify({"result":True}).json
+
+@webapp.route("/get-all-projects", methods=['GET'])
+def get_all_projects():
+  project_bll = ProjectBLL()
+  result = project_bll.get_all_projects()  
+  return jsonify([jsonify(item.toDictionary()).json for item in result])
+
+@webapp.route("/remove-project-by-uuid", methods=['POST'])
+def remove_project_by_uuid():
+  project_bll = ProjectBLL()
+  data = request.json
+  uuid = data.get('uuid')
+  project_bll.remove_project_by_uuid(uuid)
+  return jsonify({"result":True}).json

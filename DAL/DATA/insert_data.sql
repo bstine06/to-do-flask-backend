@@ -1,8 +1,8 @@
 -- Insert sample data into Projects table
-INSERT INTO Projects (id, name) VALUES
-(1, 'Project Alpha'),
-(2, 'Project Beta'),
-(3, 'Project Gamma');
+INSERT INTO Projects (id, uuid, name) VALUES
+(1, '24f232c8-0182-4332-9dc1-e05b83da0f6d', 'Project Alpha'),
+(2, 'c460d403-9374-482c-8d9e-02bffe882121', 'Project Beta'),
+(3, '93bca277-978f-410a-800a-85bd2efe4de6', 'Project Gamma');
 
 -- Insert sample data into Tasks table with UUIDs
 INSERT INTO Tasks (id, uuid, name, description, due_date, priority, notes, project_id) VALUES
