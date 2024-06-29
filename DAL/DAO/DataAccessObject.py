@@ -1,7 +1,7 @@
 import sqlite3
 import os
 import pandas as pd
-from DAL.DOM.PersonDOM import PersonDOM
+from DAL.DOM.TaskDOM import TaskDOM
 
 this_files_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -37,8 +37,6 @@ class DataAccessObject:
         
         # Close the self.cur and connection
         self.disconnect()
-        if len(results) == 1:
-            return results[0]
         return results
     
     def execute_raw(self, sql):

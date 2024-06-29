@@ -7,8 +7,8 @@ import numpy as np
 import json
 from flask import Flask, render_template, Blueprint, request, send_from_directory, send_file, flash, Blueprint, g, session, app, current_app, jsonify
 from flask_wtf import Form
-from BLL.PersonBLL import PersonBLL
-from bs4 import BeautifulSoup as bs
+from BLL.TaskBLL import TaskBLL
+# from bs4 import BeautifulSoup as bs
 from werkzeug.utils import secure_filename
 from pathlib import Path
 
@@ -41,58 +41,47 @@ def get_js__and_css_source():
 
   return js_source, css_source
 
-@webapp.route("/")
-def home():
-  js_source, css_source = get_js__and_css_source()
-  return  render_template("index.html.j2",
-              js_source=js_source,
-              css_source=css_source
-          )
-
-@webapp.route("/info")
-def info():
-  js_source, css_source = get_js__and_css_source()
-  return  render_template("info.html.j2",
-              js_source=js_source,
-              css_source=css_source
-          )
-
-@webapp.route("/data", methods=["POST"])
-def data():
-  data = dict()
-  data["name"] = "Brett"
-  data["age"] = "27"
-  data["country"] = "USA"
-  return  json.dumps(data)  
-
-@webapp.route("/get-person", methods=["POST"])
-def get_person_by_id():
-  person_bll = PersonBLL()
+@webapp.route("/get-task-by-uuid", methods=["POST"])
+def get_task_by_uuid():
+  task_bll = TaskBLL()
   data = request.json 
-  id = data.get('id')
-  result = person_bll.getPersonById(id)
+  uuid = data.get('uuid')
+  result = task_bll.get_task_by_uuid(uuid)
   return jsonify(result.toDictionary()).json
 
-@webapp.route("/get-people", methods=['POST'])
-def get_people():
-  person_bll = PersonBLL()
-  result = person_bll.getAllPeople()  
+@webapp.route("/get-all-tasks", methods=['POST'])
+def get_all_tasks():
+  task_bll = TaskBLL()
+  result = task_bll.get_all_tasks()  
   return jsonify([jsonify(item.toDictionary()).json for item in result])
 
-@webapp.route("/add-person", methods=['POST'])
-def add_person():
-  person_bll = PersonBLL()
+@webapp.route("/get-all-tasks-in-project", methods=['POST'])
+def get_all_tasks_in_project():
+  task_bll = TaskBLL()
+  data = request.json
+  project_id = data.get('project_id')
+  result = task_bll.get_all_tasks_in_project(project_id)
+  return jsonify([jsonify(item.toDictionary()).json for item in result])
+
+@webapp.route("/add-task", methods=['POST'])
+def add_task():
+  task_bll = TaskBLL()
   data = request.json 
-  age = data.get('age')
+  uuid = data.get('uuid')
   name = data.get('name')
-  person_bll.add_person(age, name)
+  description = data.get('description')
+  due_date = data.get('due_date')
+  priority = data.get('priority')
+  notes = data.get('notes')
+  project_id = data.get('project_id')
+  task_bll.add_task(uuid, name, description, due_date, priority, notes, project_id)
   return jsonify({"result":True}).json
 
-@webapp.route("/remove-person", methods=['POST'])
-def remove_person():
-  person_bll = PersonBLL()
+@webapp.route("/remove-task-by-uuid", methods=['POST'])
+def remove_task_by_uuid():
+  task_bll = TaskBLL()
   data = request.json 
-  id = data.get('id')
-  person_bll.remove_person(id)
+  uuid = data.get('uuid')
+  task_bll.remove_task_by_uuid(uuid)
   return jsonify({"result":True}).json
 

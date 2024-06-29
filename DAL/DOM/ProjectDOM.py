@@ -1,4 +1,4 @@
-class CityDOM:
+class ProjectDOM:
 
   def __init__(self):
     self.id = None
