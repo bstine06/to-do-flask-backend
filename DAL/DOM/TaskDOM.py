@@ -21,6 +21,7 @@ class TaskDOM:
         data["priority"] = self.priority
         data["project_id"] = self.project.id
         data["project_name"] = self.project.name
+        data["notes"] = self.notes
         return data
     
     def from_dictionary(self, dict):
@@ -32,6 +33,7 @@ class TaskDOM:
         self.description = dict["description"]
         self.due_date = dict["due_date"]
         self.priority = dict["priority"]
+        self.notes = dict["notes"]
 
     def toJSON(self):
         return json.dumps(self.toDictionary())

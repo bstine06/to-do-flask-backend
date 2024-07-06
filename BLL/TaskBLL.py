@@ -10,8 +10,6 @@ class TaskBLL:
   def get_task_by_uuid(self, uuid):
     task_dom = TaskDOM()
     result = self.task_dao.get_task_by_uuid(uuid)[0]
-    print(result)
-    print("\n\n\n\n\n\n\n\n\n\n\n\n")
     task_dom.from_dictionary(result)
     return(task_dom)
   
