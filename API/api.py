@@ -42,6 +42,10 @@ def get_js__and_css_source():
 
   return js_source, css_source
 
+@webapp.route('/health-check', methods=['GET'])
+def health_check():
+    return jsonify(status='ok'), 200
+
 @webapp.route("/get-task-by-uuid", methods=["POST"])
 def get_task_by_uuid():
   task_bll = TaskBLL()
@@ -60,8 +64,8 @@ def get_all_tasks():
 def get_all_tasks_in_project():
   task_bll = TaskBLL()
   data = request.json
-  project_id = data.get('project_id')
-  result = task_bll.get_all_tasks_in_project(project_id)
+  project_uuid = data.get('project_uuid')
+  result = task_bll.get_all_tasks_in_project(project_uuid)
   return jsonify([jsonify(item.toDictionary()).json for item in result])
 
 @webapp.route("/add-task", methods=['POST'])

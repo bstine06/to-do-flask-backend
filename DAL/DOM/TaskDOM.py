@@ -19,14 +19,14 @@ class TaskDOM:
         data["description"] = self.description
         data["due_date"] = self.due_date
         data["priority"] = self.priority
-        data["project_id"] = self.project.id
+        data["project_uuid"] = self.project.uuid
         data["project_name"] = self.project.name
         data["notes"] = self.notes
         return data
     
     def from_dictionary(self, dict):
         self.project.name = dict["project_name"]
-        self.project.id = dict["project_id"]
+        self.project.uuid = dict["project_uuid"]
         self.id = dict["id"]
         self.uuid = dict["uuid"]
         self.name = dict["name"]

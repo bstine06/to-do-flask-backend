@@ -12,7 +12,6 @@ class ProjectDAO:
     def get_all_projects(self):
         sql = """
             SELECT 
-                projects.id, 
                 projects.uuid, 
                 projects.name
             FROM 

@@ -21,9 +21,9 @@ class TaskBLL:
       result.append(task_dom)
     return result
   
-  def get_all_tasks_in_project(self, project_id):
+  def get_all_tasks_in_project(self, project_uuid):
     result = list()
-    for task in self.task_dao.get_all_tasks_in_project(project_id):
+    for task in self.task_dao.get_all_tasks_in_project(project_uuid):
       task_dom = TaskDOM()
       task_dom.from_dictionary(task)
       result.append(task_dom)

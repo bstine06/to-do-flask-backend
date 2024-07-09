@@ -2,7 +2,6 @@ import json
 class ProjectDOM:
 
   def __init__(self):
-    self.id = None
     self.uuid = None
     self.name = None
 
@@ -13,7 +12,6 @@ class ProjectDOM:
     return data
   
   def from_dictionary(self, dict):
-    self.id = dict["id"]
     self.uuid = dict["uuid"]
     self.name = dict["name"]
 
